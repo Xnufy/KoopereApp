@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Modal, StatusBar, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Modal, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {
   useCameraDevice,
   useCameraPermission,
@@ -9,6 +9,7 @@ import {
 
 import {PermissionsPage} from '../../components/PermissionsPage';
 import {NoCameraDevice} from '../../components/NoCameraDevice';
+import { handleGetTicketsService } from '../../services/services';
 
 const CameraScreen: React.FC<any> = ({navigation}) => {
   const {hasPermission, requestPermission} = useCameraPermission();
@@ -18,14 +19,23 @@ const CameraScreen: React.FC<any> = ({navigation}) => {
   const device = useCameraDevice('back', {
     physicalDevices: ['wide-angle-camera'],
   });
+  const [ticket, setTicket] = useState<any>();
 
-  const checkTicket = (code: string | undefined) => {
+  const checkTicket = async (code: string | undefined) => {
     if(modalInfoTicketIsVisible){
       return;
     }
-
-
-
+    try {
+      const response = await handleGetTicketsService('8c2891939f14a7d484561f5559799cf7');
+      setTicket(response.data);
+    } catch (error) {
+      if (error.status === 404) {
+        console.error('Ticket não encontrado');
+        Alert.alert('Ticket não encontrado');
+        return;
+      }
+      console.error(error.status);
+    }
   }
 
   const codeScanner = useCodeScanner({
@@ -99,9 +109,9 @@ const CameraScreen: React.FC<any> = ({navigation}) => {
               }}>
               Informações do Ticket
             </Text>
-            <Text>Nome: João da Silva</Text>
-            <Text>Data de Nascimento: 01/01/1990</Text>
-            <Text>CPF: 123.456.789-00</Text>
+            <Text>Nome: {ticket.name}</Text>
+            <Text>Data de Nascimento: {ticket.birthdate}</Text>
+            <Text>CPF: {ticket.cpf}</Text>
 
             <TouchableOpacity
               onPress={() => setModalInfoTicketIsVisible(false)}

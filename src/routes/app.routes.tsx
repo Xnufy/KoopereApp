@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from '../screens/home';
 import {CameraScreen} from '../screens/camera';
 import {CreateTicketScreen} from '../screens/createTicket';
+import { myTickets } from '../screens/myTickets';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ export function AppRoutes() {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Camera" component={CameraScreen} />
       <Stack.Screen name="CreateTicket" component={CreateTicketScreen} />
+      <Stack.Screen name="myTickets" component={myTickets} />
     </Stack.Navigator>
   );
 }

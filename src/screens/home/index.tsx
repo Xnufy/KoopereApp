@@ -1,7 +1,11 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import {StatusBar, Text, TouchableOpacity, View} from 'react-native';
+import { handleGetTicketsService } from '../../services/services';
 
 const HomeScreen: React.FC<any> = ({navigation}) => {
+
+
   return (
     <View style={{paddingHorizontal: 20, paddingVertical: 40}}>
       <StatusBar
@@ -43,6 +47,7 @@ const HomeScreen: React.FC<any> = ({navigation}) => {
           backgroundColor: '#000',
           padding: 20,
           borderRadius: 8,
+          marginBottom: 20,
         }}
       >
         <Text
@@ -52,6 +57,23 @@ const HomeScreen: React.FC<any> = ({navigation}) => {
           }}
         >
           Gerar Ticket
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('myTickets')}
+        style={{
+          backgroundColor: '#000',
+          padding: 20,
+          borderRadius: 8,
+        }}
+      >
+        <Text
+          style={{
+            color: '#fff',
+            textAlign: 'center',
+          }}
+        >
+          Meus Tickets
         </Text>
       </TouchableOpacity>
     </View>
